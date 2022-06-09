@@ -1,0 +1,2 @@
+all:
+	cl Core.c

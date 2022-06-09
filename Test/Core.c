@@ -5,15 +5,6 @@
 
 #include "kvec.h"
 
-struct DerivedObject
-{
-    int a;
-};
-
-DerivedObject* create()
-{
-    return 0;
-}
 
 int Mul(int val1, int val2)
 {
@@ -42,6 +33,16 @@ typedef struct IntVariableName
     char* name;
     int value;
 }
+
+struct MathOperationBase
+{
+    kvec_t(int) arrInt;
+	kv_init(arrInt);
+    kv_resize( int, array, 2);
+	int (*Operator)(int, int);
+};
+
+
 
 int main()
 {
