@@ -1,1 +1,18 @@
-2 + 3 * 9
+void TestFunction1()
+{
+	WriteLine("Test Function 1");
+}
+
+void TestFunction2(int a, int b)
+{
+	
+	WriteLine("Test Function 2 {0}", a + b);
+}
+
+void TestFunction3(int a)
+{
+	int b = a * 2;
+	WriteLine("Test Function 3 {0}", b);
+}
+
+

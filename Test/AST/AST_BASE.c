@@ -25,6 +25,7 @@ typedef struct ArrayASTINT
 	int size;
 } ArrayASTINT;
 
+///////////////////
 typedef struct VoidFunction
 {
 	ArrayASTINT* astInt;
@@ -39,40 +40,55 @@ typedef struct ArrayOfVoidFunction
 	
 } ArrayOfVoidFunction;
 
+typedef struct IntFunction
+{
+	ArrayASTINT* astInt;
+	
+} IntFunction;
+
+typedef struct ArrayOfIntFunction
+{
+	ParameterType* param;
+    IntFunction* pIntFunc;
+	int size;
+	
+} ArrayOfIntFunction;
+
+
 
 
 ////////////////////////////////////////////////////////
-	ASTBase* root = (ASTBase*)calloc(1, sizeof(ASTBase) );
+	ASTINTBase* root = (ASTINTBase*)calloc(1, sizeof(ASTINTBase) );
 	root->Operator = Mul;
 	
-	ASTBase* ch1 = (ASTBase*)calloc(1, sizeof(ASTBase) );
+	ASTINTBase* ch1 = (ASTINTBase*)calloc(1, sizeof(ASTINTBase) );
 	ch1->parent = root;
 	ch1->Operator = Add;
 	root->right = ch1;
 	
-	ASTBase* ch2 = (ASTBase*)calloc(1, sizeof(ASTBase) );
+	ASTINTBase* ch2 = (ASTINTBase*)calloc(1, sizeof(ASTINTBase) );
 	ch2->parent = root;
 	ch2->value = 3;
 	root->left = ch2;
 	
 	//////////////////
-	ASTBase* ch21 = (ASTBase*)calloc(1, sizeof(ASTBase) );
+	ASTINTBase* ch21 = (ASTINTBase*)calloc(1, sizeof(ASTINTBase) );
 	ch21->parent = ch1;
 	ch21->Operator = Mul;
 	ch1->right = ch21;
 	
-	ASTBase* ch22 = (ASTBase*)calloc(1, sizeof(ASTBase) );
+	ASTINTBase* ch22 = (ASTINTBase*)calloc(1, sizeof(ASTINTBase) );
 	ch22->parent = ch1;
 	ch22->value = 3;
 	ch1->left = ch22;
 	
 	//////////////////
-	ASTBase* ch31 = (ASTBase*)calloc(1, sizeof(ASTBase) );
+	ASTINTBase* ch31 = (ASTINTBase*)calloc(1, sizeof(ASTINTBase) );
 	ch31->parent = ch21;
 	ch31->value = 3;
 	ch21->right = ch31;
 	
-	ASTBase* ch32 = (ASTBase*)calloc(1, sizeof(ASTBase) );
+	ASTINTBase* ch32 = (ASTINTBase*)calloc(1, sizeof(ASTINTBase) );
 	ch32->parent = ch21;
 	ch32->value = 2;
 	ch21->left = ch32;
@@ -83,6 +99,7 @@ ArrayOfVoidFunction testVoidFunc;
 
 int getSize = 0;
 int getParamSize = 0;
+
 void InitVoidFunc()
 {
 	getSize = 1;
@@ -103,11 +120,50 @@ void InitVoidFunc()
 
 void ExecuteVoidFunc()
 {
-	ExecuteAST_INT(ASTINTBase* testVoidFunc.pVoidFunc->astInt);
+	ExecuteAST_INT(testVoidFunc.pVoidFunc->astInt);
 	
 /* 	ExecuteAST_FLOAT(ASTINTBase* testVoidFunc.pVoidFunc->astFloat);
 	ExecuteAST_DOUBLE(ASTINTBase* testVoidFunc.pVoidFunc->astDouble);
 	
 	ExecuteAST_ARRAYOFCHAR(ASTINTBase* testVoidFunc.pVoidFunc->astArrayOfChar); */
+	
+}
+
+
+/////////////////////////////////////////////////////////////////
+ArrayOfIntFunction testIntFunc;
+
+int getSize = 0;
+int getParamSize = 0;
+
+void InitIntFunc()
+{
+	getSize = 1;
+	getParamSize = 3;
+	
+	// +1 for return value
+	testIntFunc.param = (ParameterType*) malloc( (getSize + 1 )* sizeof(ParameterType));
+	
+	testIntFunc.param->pValue = (int*)malloc( getParamSize * sizeof(int));
+	testIntFunc.param->size = getParamSize;
+	*(testIntFunc.param->pValue + 1 ) = 9;
+	*(testIntFunc.param->pValue + 2) = 3;
+	*(testIntFunc.param->pValue + 3) = 7;
+	
+	testIntFunc.pIntFunc = (VoidFunction*) malloc( sizeof(VoidFunction) );
+	
+	testIntFunc.pIntFunc->astInt = root;
+}
+
+ASTBase* returnVal;
+
+void ExecuteIntFunc()
+{
+	ExecuteAST_INT(testIntFunc.pIntFunc->astInt);
+	
+/* 	ExecuteAST_FLOAT(ASTINTBase* testIntFunc.pIntFunc->astFloat);
+	ExecuteAST_DOUBLE(ASTINTBase* testIntFunc.pIntFunc->astDouble);
+	
+	ExecuteAST_ARRAYOFCHAR(ASTINTBase* testIntFunc.pIntFunc->astArrayOfChar); */
 	
 }
